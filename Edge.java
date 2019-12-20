@@ -1,7 +1,5 @@
 package dataStructure;
 
-import java.util.HashMap;
-
 public class Edge implements edge_data {
 	public Node src;
 	public Node dest;

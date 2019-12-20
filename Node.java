@@ -14,17 +14,17 @@ public class Node implements node_data{
 
 	public Node(){
 		this.key=0;
-		this.weight=0;
+		this.weight=1;
 		this.location=Point3D.ORIGIN;
 	}
 	
 	public Node(int key){
 		this.key=key;
-		this.weight=0;
+		this.weight=1;
 		this.location=Point3D.ORIGIN;
 	}
 
-	public Node(int key, double w, Point3D p ){
+	public Node(int key, double w, Point3D p){
 		this.key=key;
 		this.weight=w;
 		this.location=p;
