@@ -1,3 +1,4 @@
 # TheMazeofWaze
 task1
 now available to construct directional weighted graph - 18.12.2019
+the classes is update. id addition we added new comperator for sort all the nodes by their weights (for distkra algo) - 20.12.2019
