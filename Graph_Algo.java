@@ -27,7 +27,8 @@ public class Graph_Algo implements graph_algorithms{
 	private int[] k;
 	private Node[] p;
 	private DGraph g;
-
+	public boolean connected;
+	
 	public static final int inf = 10000000;
 	private List<node_data> path = new ArrayList<node_data>();
 	public static void main(String[] argas) {
@@ -44,21 +45,34 @@ public class Graph_Algo implements graph_algorithms{
 		Node n4 = new Node(4,0,p5);
 
 		Edge e1 = new Edge(n0, n1, 1);
-		Edge e2 = new Edge(n1, n2, 3);
-		Edge e3 = new Edge(n2, n3, 40);
-		Edge e4 = new Edge(n3, n0, 2);
-		Edge e5 = new Edge(n4, n3, 6);
-		Edge e6 = new Edge(n2, n4, 1);
+		Edge e2 = new Edge(n1, n3, 2);
+		Edge e3 = new Edge(n2, n1, 5);
+		Edge e4 = new Edge(n3, n4, 3);
+		Edge e5 = new Edge(n4, n2, 4);
+		Edge e6 = new Edge(n0, n3, 10);
 
 		Edge edge[]= {e1,e2,e3,e4,e5,e6};
 		Node node[] = {n0,n1,n2,n3,n4};
 		DGraph g = new DGraph(node , edge);
 		Graph_Algo G = new Graph_Algo(g);
 
-		System.out.println(G.shortestPathDist(n0.getKey(), n3.getKey()));
-		System.out.println(G.shortestPath(n0.getKey(), n3.getKey()));
-		G.save("ofir");
-		G.init("ofir");
+		System.out.println(G.tostring());
+
+		List<Integer> list = new ArrayList<Integer>();
+		list.add(0);
+		list.add(1);
+		list.add(4);
+		list.add(3);
+		list.add(1);
+		System.out.println(G.TSP(list));
+		
+		Graph_Algo G1 = new Graph_Algo();
+		G1.init(g);
+		System.out.println(G1.isConnected());
+		
+	}
+	public Graph_Algo() {
+		
 	}
 
 	public Graph_Algo(DGraph g){
@@ -71,33 +85,37 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public void init(graph g) {
-
+		this.g=(DGraph) g;
+		this.connected = this.isConnected();
 	}
 
 	@Override
 	public void init(String file_name) {
-		try {		  
+
+		try {
+			int i;
 			FileInputStream fileIn = new FileInputStream("C:\\Users\\Obador\\eclipse-workspace\\ofir.txt");
 			ObjectInputStream in = new ObjectInputStream(fileIn);
-			this.k = (int[]) in.readObject();
+			i = (int) in.readObject();
 			in.close();
-			fileIn.close();		
+			System.out.println(i);
 		}
-		catch(Throwable e){
-			System.out.println("problem with file");
-		}
+		catch(IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}	
 	}
 
 	@Override
 	public void save(String file_name) {
 		try {
-			FileOutputStream fileIn = new FileOutputStream("C:\\Users\\Obador\\eclipse-workspace\\ofir.txt");
-			ObjectOutputStream out = new ObjectOutputStream(fileIn);
-			out.writeObject(this.k); 
+			FileOutputStream fileOut = new FileOutputStream("C:\\Users\\Obador\\eclipse-workspace\\ofir.txt");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject( this.g.vertex[0]);
 		}
-		catch(IOException e) {
-			e.printStackTrace();
+		catch(Throwable e){
+			System.out.println("problem with file");
 		}
+
 	}
 
 
@@ -107,7 +125,6 @@ public class Graph_Algo implements graph_algorithms{
 			if(this.g.nodeedges.get(x.getKey()) == null) return false;
 
 			if(BFS(x)[x.getKey()] != "b") return false;
-
 		}
 		return true;
 	}
@@ -125,12 +142,14 @@ public class Graph_Algo implements graph_algorithms{
 			this.p[i] = null;
 			vis[i] = false;
 		}	
+
 		dis[src]=0;
 		q.clear();
 		q.add(start);
 
 		if(this.g.getE(src).equals(null)) {
 			q.remove(start);
+			return 0;
 		}
 		while(!q.isEmpty()){
 			Node u = q.poll();
@@ -138,12 +157,14 @@ public class Graph_Algo implements graph_algorithms{
 			else {
 				for(edge_data e : this.g.getE(u.getKey())) {
 					Node v = this.g.vertex[e.getDest()];
+
 					if(vis[e.getDest()] == false ){
 						if(dis[v.getKey()] > dis[u.getKey()] + e.getWeight()) {
 							dis[v.getKey()] = dis[u.getKey()] + e.getWeight();
 							this.p[e.getDest()] = u;
+							q.remove(u);
 							q.add(u);
-							q.add(v);;		
+							q.add(v);		
 						}
 					}
 				}
@@ -155,25 +176,50 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public List<node_data> shortestPath(int src, int dest) {
+		path = new ArrayList<node_data>();	
+		path.add(this.g.vertex[dest]);
 		this.shortestPathDist(src, dest);
 		Node t =  this.g.vertex[dest];
 		Node u = this.g.vertex[src];
 		while(t!=u ) {
 			t = this.p[t.getKey()];
-			this.path.add(t);
+			path.add(t);
 		}
-		return this.path;
+
+		return path;
 	}
 
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
-		// TODO Auto-generated method stub
-		return null;
+		List<node_data> l = new ArrayList<>();
+		List<node_data> L = new ArrayList<>();
+		for (int j = 0; j < targets.size()-1; j++) {		
+			l=this.shortestPath(targets.get(j),targets.get(j+1));
+			System.out.println(l);
+			for (int i =l.size()-1 ; i >0; i--) {
+				L.add(l.get(i));
+			}
+		}
+		L.add(this.g.vertex[targets.get(targets.size()-1)]);
+		return L;
 	}
 
 	@Override
 	public graph copy() {
 		return this.g;
+	}
+
+	public String tostring() {
+		String vertex = "";
+		String edge = "";
+		for(Node n : this.g.vertex) {
+			vertex = vertex+ "(" + n.getKey()+ ")";
+		}
+		for(Edge e : this.g.edge) {
+			edge = edge + "(" + e.getSrc()+ "," + e.getDest() + ")";
+		}
+
+		return "V="+vertex + " || " +"E="+ edge;
 	}
 
 	private String[] BFS( Node n) {
