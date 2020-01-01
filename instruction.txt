@@ -1,0 +1,28 @@
+*************Writen by ofir bador and elnatan berenson************
+This file represent an instruction guid to use Ex2 for graph construct.
+
+first step ---- construct vertex's : *************************************
+To construct vertex in your desired place 
+Go to Node class and construct your vertex
+Name of vertex -- key.
+Place of vertex - 3Dpoint (x,y,z).
+Weight of vertex - for algorithems
+
+second step ---- construct edge's : ***********************************
+To construct edge in your desired vertex
+Go to Edge class and construct your edge
+src -- the source Node(vertex) of the edge.
+dest -- the destanation Node of the edge.
+Weight of edge -- for algorithems **importan for the smallest path for vertex to vertex.
+
+third step ---- construct graph : *************************************
+Now construct your grapg with your selected Node and Edge
+Go to DGraph class, palce all your Node and edges in a suitable set 
+Example --- > Node[] = {n0 , n1 , n2 , n3}    ,  Edge[] = {e1 , e2 ,e3 ,e4} as many as you like to add.
+After your put yor set's in DGraph constructor the grapg is connected 
+
+Print your graph ---- construct edge's : *************************************
+For viewing the graph 
+Go to gui packege construct a new gui constructor, add youe graph 
+Run and enjoy.
+
