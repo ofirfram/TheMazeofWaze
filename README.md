@@ -5,3 +5,5 @@ the classes is update. id addition we added new comperator for sort all the node
 now Graph_GUI is ready for using. in addition, TSP function working very well - 21.12.2019
 the mission is finish. all the files is upload. - 4.1.2020
 all the irrelevant files is deleted - 5.1.2020
+
+![](image/graphView.png)
