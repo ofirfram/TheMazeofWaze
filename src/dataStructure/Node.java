@@ -1,12 +1,18 @@
 package dataStructure;
 
+import java.io.Serializable;
+
 import utils.Point3D;
 /**
  * This class represents a vertex in graph.
  * In this class you can construct a vertex, and choose features for vertex such - key , place in space and weight 
+ * @author OfirBador & ElnatanBerenson
  */
-public class Node implements node_data{
-	
+public class Node implements node_data,Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int key;
 	private double weight;
 	public Point3D location;
@@ -54,7 +60,6 @@ public class Node implements node_data{
 	}
 	/**
 	 *  creating deep copy of this Node
-	 *  
 	 */
 	public  Node copy() {
 		Node n = new Node();
@@ -73,17 +78,17 @@ public class Node implements node_data{
 	public int getKey() {
 		return this.key;
 	}
-
+	
 	@Override
 	public Point3D getLocation() {
 		return this.location;
 	}
-
+	
 	@Override
 	public void setLocation(Point3D p) {
 		this.location=p;
 	}
-
+	
 	@Override
 	public double getWeight() {
 		return this.weight;

@@ -10,10 +10,10 @@ import dataStructure.graph;
 import dataStructure.node_data;;
 
 public class Graph_GUI {
-	public graph g;
+	private graph g;
 	int i=0;
 
-	public static void main(String[] argas) {
+	public static  void main(String[] argas) {
 		Point3D p0 = new Point3D(0.5,-0.5,0);
 		Point3D p1 = new Point3D(6.5,-0.5,0);
 		Point3D p2 = new Point3D(6.5,-6.5,0);
@@ -40,13 +40,17 @@ public class Graph_GUI {
 		Edge edge[]= {e1,e2,e3,e4,e5,e6};
 		Node node[] = {n0,n1,n2,n3,n4,n5,n6};
 		DGraph g = new DGraph(node , edge);
-		System.out.println(g.toString());
-		g.addNode(n0);
-
-		Graph_GUI G = new Graph_GUI(g);
+		
+		
+	Graph_GUI G = new Graph_GUI(g);
+		
 	}
 
-	public  Graph_GUI(graph g){
+	public Graph_GUI(graph g) {
+		this.g = g;
+	}
+	
+	public boolean drawGraph(graph g){
 		this.g = g;
 		StdDraw.setXscale(-15,15);
 		StdDraw.setYscale(-15,15);
@@ -137,6 +141,6 @@ public class Graph_GUI {
 				}
 			}
 			i=0;
-		}
+		}return true;
 	}
 }
